@@ -24,21 +24,21 @@ is_palindrome(const char *str)
   return true;
 }
 
+#define foreach(i, xs) for (i = 0; i < xs; ++i)
+
 int
 main(void)
 {
+  int i;
   // NOTE: Truth value expected.
   char valid[3][10] = { "nun", "bob", "mom" };
-  for (int i = 0; i < 3; i++) {
-    bool x = is_palindrome(valid[i]);
-    BOOL_TO_CSTR(valid[i],x);
+  foreach(i, 3) {
+    BOOL_TO_CSTR(valid[i],is_palindrome(valid[i]));
   }
 
   // NOTE: False value expected.
-  char invalid[3][10] = { "test", "hey", "im" };
-  for (int i = 0; i < 3; i++) {
-    bool x = is_palindrome(invalid[i]);
-    BOOL_TO_CSTR(invalid[i],x);
+  char invalid[3][10] = { "test", "hey", "tim" };
+  foreach(i, 3) {
+    BOOL_TO_CSTR(invalid[i],is_palindrome(invalid[i]));
   }
-
 }
