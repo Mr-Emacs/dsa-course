@@ -84,7 +84,11 @@ print_que(que *q)
 int
 main(void)
 {
-  stack fruit;
+  // NOTE: If I did it like you via ```stack fruit = new stack()```
+  // I have to do a heap allocation based one.
+  // which is not what we have in C. since C does not have constructors.
+  // Same thing for que 
+  stack fruit; 
 
   init_stack(&fruit);
   push(&fruit, "Apple");
