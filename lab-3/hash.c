@@ -4,7 +4,7 @@
 #include <string.h>
 #include <assert.h>
 
-/* String related function */
+/* Custom string implementation */
 typedef struct {
   uint8_t *data;
   size_t size;
@@ -55,7 +55,7 @@ read_file(const char *path)
   return str;
 }
 
-/* Hash related function */
+/* Hash related code */
 
 typedef struct {
   string key;
@@ -74,7 +74,7 @@ hash(const char *str, size_t capacity) {
   unsigned long hash = 6000;
   int c;
   while((c = *str++)) {
-    // I moved away from ((hash << 5) + hash) to (hash * 33)
+    // NOTE: I moved away from ((hash << 5) + hash) to (hash * 33)
     hash = (hash * 33) + c;
   }
   return hash % capacity;
