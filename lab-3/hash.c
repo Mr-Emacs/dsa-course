@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
@@ -20,6 +21,8 @@ typedef struct {
       (str)->size = strlen((cliteral));              \
     } while(0);                                      \
 }
+
+#define STR_TO_CLIT(str) (char *)(str).data
 
 #define STR_NULL_APPEND(str) {                  \
     do  {                                       \
@@ -53,6 +56,13 @@ read_file(const char *path)
 
   fclose(fptr);
   return str;
+}
+
+bool
+string_cmp(string s1, string s2)
+{
+  if(strcmp(STR_TO_CLIT(s1), STR_TO_CLIT(s2)) == 0) return true;
+  return false;
 }
 
 /* Hash related code */
@@ -103,9 +113,9 @@ insert(hash_table *ht, string key)
     ht->table = realloc(ht->table, sizeof(*ht->table) * ht->capacity);
     assert(ht->table != NULL);
   }
-  unsigned int index = hash((char *)key.data, ht->capacity);
+  unsigned int index = hash(STR_TO_CLIT(key), ht->capacity);
   while(ht->table[index].key.data != NULL) {
-    if(strcmp((char *)ht->table[index].key.data, (char *)key.data) == 0) {
+    if(string_cmp(ht->table[index].key, key)) {
       ht->table[index].value++;
       return;
     }
@@ -120,7 +130,7 @@ insert(hash_table *ht, string key)
 float
 collision_perc(hash_table *ht)
 {
-    return (float)ht->collision / (float)ht->count * 100.0;
+    return (float)ht->collision / (float)ht->count * 100.0f;
 }
 
 int
@@ -131,10 +141,10 @@ main() {
     size_t capacity = (size_t)(RATE * str.size / sizeof(char));
     hash_table *ht = create_hash_table(capacity);
 
-    char *token = strtok((char *)str.data, "\n");
+    char *token = strtok(STR_TO_CLIT(str), "\n");
     while (token != NULL) {
-        string key = {.data = (uint8_t *)malloc(strlen(token) + 1), .size = strlen(token)};
-        strcpy((char *)key.data, token);
+        string key = {.data = malloc(strlen(token) + 1), .size = strlen(token)};
+        strcpy(STR_TO_CLIT(key), token);
         insert(ht, key);
         free(key.data);
         token = strtok(NULL, "\n");
