@@ -24,11 +24,10 @@ typedef struct {
 
 #define STR_TO_CLIT(str) (char *)(str).data
 
-#define STR_NULL_APPEND(str) {                  \
+#define STR_NULL_APPEND(str)                    \
     do  {                                       \
       (str)->data[(str)->size] = '\0';          \
-    } while(0);                                 \
-  }
+    } while(0)
 
 #define SV_FMT "%.*s"
 #define SV_ARGS(str) (int)(str).size, (char *)(str).data

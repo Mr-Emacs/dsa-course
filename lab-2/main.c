@@ -16,7 +16,7 @@ init_stack(stack *s)
 bool
 is_stack_empty(stack *s)
 {
-  return s->top == -1; 
+  return s->top == -1;
 }
 
 void push(stack *s, char item[])
@@ -87,8 +87,8 @@ main(void)
   // NOTE: If I did it like you via ```stack fruit = new stack()```
   // I have to do a heap allocation based one.
   // which is not what we have in C. since C does not have constructors.
-  // Same thing for que 
-  stack fruit; 
+  // Same thing for que
+  stack fruit;
 
   init_stack(&fruit);
   push(&fruit, "Apple");
@@ -105,14 +105,14 @@ main(void)
 
   que q;
   init_que(&q);
-  
+
   enqueue(&q, "Job 1");
   enqueue(&q, "Job 2");
   enqueue(&q, "Job 3");
   print_que(&q);
   printf("------------------------------------\n");
 
-  
+
   dequeue(&q);
   dequeue(&q);
   print_que(&q);
